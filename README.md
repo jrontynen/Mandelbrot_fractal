@@ -1,0 +1,1 @@
+Create a data file by running mandelbrot.cpp and visualize the data with plot.py.
