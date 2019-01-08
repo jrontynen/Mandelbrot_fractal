@@ -6,11 +6,11 @@
 using namespace std;
 
 inline int coord_to_ind(const double, const double, const double, 
-						const int);
+                        const int);
 inline bool is_frame(const int, const int, const int, const int, 
-					 const int, const int, const int);
+                     const int, const int, const int);
 inline void print_time(const chrono::system_clock::time_point,
-					   const chrono::system_clock::time_point);
+                       const chrono::system_clock::time_point);
 
 
 int main()
@@ -52,9 +52,9 @@ int main()
   	{
   		y = ymin + (ymax-ymin)*n/(n_grid-1);
 
-  		// f(z,c) = z^2 + c
-        // c = x + i*y,  z = zr + i*zi
-        int iter = 0;
+		// f(z,c) = z^2 + c
+		// c = x + i*y,  z = zr + i*zi
+		int iter = 0;
   		double zr = 0, zi = 0, zr_new;
   		while (zr*zr + zi*zi < 4 && iter != n_iter)
   		{
@@ -64,14 +64,14 @@ int main()
   			++iter;
   		}
 
-  		// Set the frame pixels as nan:
-  		if(is_frame(m, n, m1, m2, n1, n2, dw))
-  			outfile << "nan" << " ";
-        // Set the values of the Mandelbrot set:
-  		else if (iter == n_iter)
+		// Set the frame pixels as nan:
+		if(is_frame(m, n, m1, m2, n1, n2, dw))
+  		    outfile << "nan" << " ";
+		// Set the values of the Mandelbrot set:
+		else if (iter == n_iter)
   			outfile << 0 << " ";
-  		else
-  			outfile << iter << " ";
+		else
+			outfile << iter << " ";
   	}
   }
   outfile << endl;
@@ -91,7 +91,7 @@ int main()
 
 //  For a given coordinate value, return the corresponding index.
 inline int coord_to_ind(const double val, const double minv, const double maxv, 
-						const int ngrid)
+                        const int ngrid)
 {
 	return (val-minv)*(ngrid-1)/(maxv-minv);
 }
@@ -99,7 +99,7 @@ inline int coord_to_ind(const double val, const double minv, const double maxv,
 
 // Check if a pixel is part of the zoom window frame.
 inline bool is_frame(const int m, const int n, const int m1, const int m2, 
-					 const int n1, const int n2, const int dw)
+                     const int n1, const int n2, const int dw)
 {
 	return 
 	(
@@ -112,7 +112,7 @@ inline bool is_frame(const int m, const int n, const int m1, const int m2,
 
 // Print the execution time.
 inline void print_time(const chrono::system_clock::time_point t1,
-					   const chrono::system_clock::time_point t2)
+                       const chrono::system_clock::time_point t2)
 {
     auto duration = chrono::duration_cast<chrono::seconds>(t2 - t1).count();
     int hours = duration/3600;
