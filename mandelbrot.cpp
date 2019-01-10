@@ -15,9 +15,9 @@ inline void print_time(const chrono::system_clock::time_point,
 
 int main()
 {
-const int n_grid = 1000; // pixels per axis
-const int n_iter = 100;  // # of iterations
-double x, y;             // coordinates of the complex plane
+const int n_grid = 1000;  // pixels per axis
+const int max_iter = 100; // maximum # of iterations
+double x, y;              // coordinates of the complex plane
 const double xmin = -2, xmax = 0.5;
 const double ymin = -1.3, ymax = 1.3;
 string filename = "./out/data.txt"; // name of the output file
@@ -34,7 +34,7 @@ const int n2 = coord_to_ind(ymax_frame, ymin, ymax, n_grid);
 // Open the output file:
 ofstream outfile;
 outfile.open(filename);
-outfile << n_grid << " " << n_iter << " " << endl;
+outfile << n_grid << " " << max_iter << " " << endl;
 outfile << xmin << " " << xmax << " " << ymin << " " << ymax 
         << " " << endl;
 
@@ -43,7 +43,11 @@ chrono::system_clock::time_point t1 = chrono::system_clock::now();
 
 
 // Calculate the Mandelbrot set.
-// Go through the complex plane and iterate the function f(z,c).
+// Go through the complex plane and iterate the function 
+// f(z,c) = z^2 + c at z = 0 for each value of c = x + i*y.
+int cnt_iter; // # of iterations
+double zr, zi, zr_old;
+
 for (int m = 0; m != n_grid; ++m)
 {
   x = xmin + (xmax-xmin)*m/(n_grid-1);
@@ -54,25 +58,24 @@ for (int m = 0; m != n_grid; ++m)
 
     // f(z,c) = z^2 + c
     // c = x + i*y,  z = zr + i*zi
-    int iter = 0;
-    double zr = 0, zi = 0, zr_new;
-    while (zr*zr + zi*zi < 4 && iter != n_iter)
+    for (cnt_iter = 0, zr = 0, zi = 0; 
+         zr*zr + zi*zi < 4 && cnt_iter != max_iter; 
+         ++cnt_iter)
     {
-      zr_new = zr*zr - zi*zi + x;
-      zi = 2*zr*zi + y;
-      zr = zr_new;
-      ++iter;
+      zr_old = zr;
+      zr = zr*zr - zi*zi + x;
+      zi = 2*zr_old*zi + y;
     }
 
-    // Set the frame pixels as nan:
+    // Set the value of the frame pixels to nan:
     if(is_frame(m, n, m1, m2, n1, n2, frame_width))
       outfile << "nan" << " ";
-    // Set the pixels in the Mandelbrot set as zero:
-    else if (iter == n_iter)
+    // Set the pixels in the Mandelbrot set to zero:
+    else if (cnt_iter == max_iter)
       outfile << 0 << " ";
-    // other pixels 
+    // and other pixels to the # of iterations
     else
-      outfile << iter << " ";
+      outfile << cnt_iter << " ";
   }
 }
 outfile << endl;
@@ -82,7 +85,7 @@ outfile.close();
 chrono::system_clock::time_point t2 = chrono::system_clock::now();
 
 cout << filename << endl;
-cout << "n_grid = " << n_grid << ", n_iter = " << n_iter << endl;
+cout << "n_grid = " << n_grid << ", max_iter = " << max_iter << endl;
 print_time(t1, t2);
 
 return 0;

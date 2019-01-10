@@ -1,1 +1,1 @@
-Visualization of the Mandelbrot set. Create a data file by running mandelbrot.cpp and visualize the data using plot.py. Remember to increase the number of iterations while zooming in in order to see more details.
+Visualization of the Mandelbrot set. Create a data file by running mandelbrot.cpp and visualize the data using plot.py. Remember to increase the maximum number of iterations while zooming in in order to see more detail.

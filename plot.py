@@ -9,7 +9,7 @@ with open("out/data.txt", "r") as file:
     
     line = file.readline().split()
     n_grid = int(line[0])
-    n_iter = int(line[1])
+    max_iter = int(line[1])
     
     line = file.readline().split()
     xmin = float(line[0])
@@ -43,4 +43,4 @@ current_cmap.set_bad(color='white')
 #plt.colorbar()
 
 plt.show()
-print(f"n_grid = {n_grid}, n_iter = {n_iter}")
+print(f"n_grid = {n_grid}, max_iter = {max_iter}")
