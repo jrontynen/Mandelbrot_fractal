@@ -73,7 +73,7 @@ for (int m = 0; m != n_grid; ++m)
     // Set the pixels in the Mandelbrot set to zero:
     else if (cnt_iter == max_iter)
       outfile << 0 << " ";
-    // and other pixels to the # of iterations
+    // and the other pixels to the # of iterations:
     else
       outfile << cnt_iter << " ";
   }
@@ -103,13 +103,13 @@ inline int coord_to_ind(const double val, const double minv, const double maxv,
 
 // Check if a pixel is part of the zoom window frame.
 inline bool is_frame(const int m, const int n, const int m1, const int m2, 
-                     const int n1, const int n2, const int dw)
+                     const int n1, const int n2, const int w)
 {
   return 
   (
-  ((m >= m1 && m <= m1+dw) || (m >= m2 && m <= m2+dw)) && (n >= n1 && n <= n2)
+  ((m >= m1 && m <= m1+w) || (m >= m2 && m <= m2+w)) && (n >= n1 && n <= n2)
   ) || (
-  (m >= m1 && m <= m2) && ((n >= n1 && n <= n1+dw) || (n >= n2 && n <= n2+dw))
+  (m >= m1 && m <= m2) && ((n >= n1 && n <= n1+w) || (n >= n2 && n <= n2+w))
   );
 }
 
